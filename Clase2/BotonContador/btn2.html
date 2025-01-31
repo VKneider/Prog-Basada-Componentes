@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pseudocomponente Botón Contador con Getters y Setters</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #666;
+        }
+
+        .boton-contador {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            border: none;
+            padding: 15px 30px;
+            margin: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .boton-contador:hover {
+            background-color: #45a049;
+        }
+
+        .boton-contador:active {
+            background-color: #388e3c;
+        }
+
+        .boton-contador:focus {
+            outline: none;
+        }
+
+        .contador {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Pseudocomponentes en JavaScript con Getters y Setters</h1>
+    <p>Haz clic en los botones para incrementar los contadores.</p>
+
+    <script>
+        class BotonContador {
+            #contador = 0; // Variable privada
+
+            constructor(texto) {
+                this.texto = texto;
+                this.boton = document.createElement('button');
+                this.boton.classList.add('boton-contador');
+                this.boton.textContent = `${this.texto} (${this.#contador})`;
+
+                // Agregar evento de clic
+                this.boton.addEventListener('click', () => {
+                    this.contador++;
+                });
+            }
+
+            // Getter para obtener el valor del contador
+            get contador() {
+                return this.#contador;
+            }
+
+            // Setter para establecer el valor del contador
+            set contador(valor) {
+                if (typeof valor === 'number' && valor >= 0) {
+                    this.#contador = valor;
+                    this.boton.textContent = `${this.texto} (${this.#contador})`; // Actualiza visualmente el botón
+                } else {
+                    console.warn('El valor del contador debe ser un número positivo.');
+                }
+            }
+
+            // Método para renderizar el botón en el DOM
+            render(parent) {
+                parent.appendChild(this.boton);
+            }
+        }
+
+        // Crear instancias de los botones
+        const btn1 = new BotonContador("Clics A");
+        const btn2 = new BotonContador("Clics B");
+
+        // Renderizar los botones en la página
+        btn1.render(document.body);
+        btn2.render(document.body);
+
+        // Usar los setters para actualizar los contadores
+        setTimeout(() => {
+            btn1.contador = 5; // Actualiza el valor de contador y también el texto
+            btn2.contador = 3; // Actualiza el valor de contador y también el texto
+
+            // Mostrar los valores en la consola después de 5 segundos
+            console.log("Valor del botón A:", btn1.contador);
+            console.log("Valor del botón B:", btn2.contador);
+        }, 5000);
+
+       /*
+        const btn3 = new BotonContador("Clics C");
+        btn3.render(document.body);
+        btn3.boton.addEventListener('click', () => {
+            btn2.#contador = 10;
+        })
+        */
+    </script>
+
+</body>
+</html>

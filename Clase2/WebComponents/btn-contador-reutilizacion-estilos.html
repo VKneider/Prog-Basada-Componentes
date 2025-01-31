@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Component con Estilos en Shadow DOM</title>
+</head>
+<body>
+
+    <h1>Web Component con Estilos en Shadow DOM</h1>
+    <p>Haz clic en los botones para incrementar los contadores.</p>
+
+    <!-- Definir el template en el HTML -->
+    <template id="boton-contador-template">
+        <button class="boton-contador">Clics: <span class="contador">0</span></button>
+    </template>
+
+    <script>
+        class BotonContador extends HTMLElement {
+            constructor() {
+                super(); // Llamada al constructor del HTMLElement
+
+                // Crear un shadow DOM
+                this.attachShadow({ mode: 'open' });
+
+                // Obtener el template del HTML
+                const template = document.getElementById('boton-contador-template');
+
+                // Clonar el contenido del template y adjuntarlo al shadow DOM
+                this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+                // Estilos dentro del shadow DOM
+                const style = document.createElement('style');
+                style.textContent = `
+                    :host {
+                        display: inline-block;
+                        font-family: 'Arial', sans-serif;
+                    }
+
+                    .boton-contador {
+                        background-color: #4CAF50;
+                        color: white;
+                        font-size: 18px;
+                        border: none;
+                        padding: 15px 30px;
+                        margin: 15px;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        transition: background-color 0.3s ease;
+                    }
+
+                    .boton-contador:hover {
+                        background-color: #45a049;
+                    }
+
+                    .boton-contador:active {
+                        background-color: #388e3c;
+                    }
+
+                    .boton-contador:focus {
+                        outline: none;
+                    }
+
+                    .contador {
+                        margin-top: 10px;
+                        font-size: 16px;
+                        color: #555;
+                    }
+                `;
+                this.shadowRoot.appendChild(style);
+
+                // Inicializar el contador
+                this.contador = 0;
+
+                // Obtener el botón y el span donde se muestra el contador
+                this.boton = this.shadowRoot.querySelector('.boton-contador');
+                this.contadorSpan = this.shadowRoot.querySelector('.contador');
+
+                // Añadir el evento de clic al botón
+                this.boton.addEventListener('click', () => {
+                    this.incrementarContador();
+                });
+            }
+
+            // Método para incrementar el contador
+            incrementarContador() {
+                this.contador++;
+                this.contadorSpan.textContent = this.contador;
+            }
+        }
+
+        // Definir el nuevo componente
+        customElements.define('boton-contador', BotonContador);
+    </script>
+
+    <!-- Usar el Web Component en el HTML -->
+    <boton-contador></boton-contador>
+    <boton-contador></boton-contador>
+
+</body>
+</html>

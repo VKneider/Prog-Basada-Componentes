@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Bonita como Web Component</title>
+</head>
+<body style="background-color: #f0f8ff; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
+
+    <!-- Usar el Web Component -->
+    <card-component img="../Card/exm.jpg" title="VKrafts_Mcbo" description="Esta es una tarjeta con un diseño simple y elegante. Con bordes circulares demostrando que tengo un alto manejo del CSS"></card-component>
+    <card-component img="../Card/exm.jpg" title="Título de la Card" description="Esta es una tarjeta con un diseño simple y elegante. Con bordes circulares demostrando que tengo un alto manejo del CSS"></card-component>
+
+    <script>
+        class CardComponent extends HTMLElement {
+            constructor() {
+                super(); // Llamada al constructor del HTMLElement
+
+                // Crear el shadow DOM
+                this.attachShadow({ mode: 'open' });
+
+                // Crear el contenido HTML del componente
+                this.shadowRoot.innerHTML = `
+                    <style>
+                        .card {
+                            background-color: #e6f7ff; /* Azul muy claro */
+                            border: 1px solid #cce7ff; /* Azul suave */
+                            border-radius: 15px;
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                            overflow: hidden;
+                            width: 300px;
+                            transition: transform 0.3s ease, box-shadow 0.3s ease;
+                        }
+
+                        .card:hover {
+                            transform: translateY(-10px);
+                            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                        }
+
+                        .card-img {
+                            width: 100%;
+                            height: 200px;
+                            object-fit: cover;
+                        }
+
+                        .card-content {
+                            padding: 20px;
+                            text-align: center;
+                        }
+
+                        .card-title {
+                            font-size: 1.5rem;
+                            color: #007acc; /* Azul intenso */
+                            margin-bottom: 10px;
+                        }
+
+                        .card-description {
+                            font-size: 1rem;
+                            color: #333;
+                            margin-bottom: 20px;
+                            line-height: 1.5;
+                        }
+
+                        .card-button {
+                            background-color: #007acc; /* Azul intenso */
+                            color: white;
+                            border: none;
+                            border-radius: 25px;
+                            padding: 10px 20px;
+                            font-size: 1rem;
+                            cursor: pointer;
+                            transition: background-color 0.3s ease;
+                        }
+
+                        .card-button:hover {
+                            background-color: #005f99; /* Azul más oscuro */
+                        }
+                    </style>
+                    <div class="card">
+                        <img src="" alt="Imagen de ejemplo" class="card-img">
+                        <div class="card-content">
+                            <h2 class="card-title"></h2>
+                            <p class="card-description"></p>
+                            <button class="card-button">Ver Más</button>
+                        </div>
+                    </div>
+                `;
+
+                // Obtener los elementos dentro del shadow DOM
+                this.cardImg = this.shadowRoot.querySelector('.card-img');
+                this.cardTitle = this.shadowRoot.querySelector('.card-title');
+                this.cardDescription = this.shadowRoot.querySelector('.card-description');
+            }
+
+            // Observador de atributos para cambiar dinámicamente el contenido
+            static get observedAttributes() {
+                return ['img', 'title', 'description'];
+            }
+
+            // Método para manejar cambios en los atributos
+            attributeChangedCallback(name, oldValue, newValue) {
+                if (name === 'img') {
+                    this.cardImg.src = newValue;
+                } else if (name === 'title') {
+                    this.cardTitle.textContent = newValue;
+                } else if (name === 'description') {
+                    this.cardDescription.textContent = newValue;
+                }
+            }
+        }
+
+        // Definir el Web Component
+        customElements.define('card-component', CardComponent);
+    </script>
+
+</body>
+</html>

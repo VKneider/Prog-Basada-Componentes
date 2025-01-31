@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Component - Ejemplo</title>
+    <style>
+        /* Estilos globales */
+        body {
+            background-color: #f7f9fc;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #007acc;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* Contenedor de las tarjetas */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Espaciado alrededor de cada tarjeta */
+        custom-card {
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo general de los botones */
+        .card-button {
+            background-color: #007acc;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+        }
+
+        .card-button:hover {
+            background-color: #005f99;
+        }
+    </style>
+</head>
+<body>
+    <!-- Título de la página -->
+    <h1>Ejemplo de Web Component con Métodos</h1>
+
+    <!-- Contenedor para las tarjetas -->
+    <div class="card-container">
+        <custom-card title="Mi Card 1" description="Esta es la primera tarjeta, creada dinámicamente con Web Components. ¡Pruébala!" img="../Card/exm.jpg"></custom-card>
+        <custom-card title="Mi Card 2" description="Esta es la segunda tarjeta, y puedes agregar tantas como desees." img="../Card/exm.jpg"></custom-card>
+        <custom-card title="Mi Card 3" description="La tercera tarjeta para probar cómo se comporta el layout de las tarjetas." img="../Card/exm.jpg"></custom-card>
+    </div>
+
+    <!-- Incluir el código del Web Component -->
+    <script src="custom-card.js"></script>
+</body>
+</html>

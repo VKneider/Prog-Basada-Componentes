@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pseudocomponente Botón Contador</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #666;
+        }
+
+        .boton-contador {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            border: none;
+            padding: 15px 30px;
+            margin: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .boton-contador:hover {
+            background-color: #45a049;
+        }
+
+        .boton-contador:active {
+            background-color: #388e3c;
+        }
+
+        .boton-contador:focus {
+            outline: none;
+        }
+
+        .contador {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Pseudocomponentes en JavaScript</h1>
+    <p>Haz clic en los botones para incrementar los contadores.</p>
+
+    <script>
+        class BotonContador {
+            #contador = 0; // Variable privada
+
+            constructor(texto) {
+                this.texto = texto;
+                this.boton = document.createElement('button');
+                this.boton.classList.add('boton-contador');
+                this.boton.textContent = `${this.texto} (${this.#contador})`;
+
+                // Agregar evento de clic
+                this.boton.addEventListener('click', () => {
+                    this.#contador++;
+                    this.boton.textContent = `${this.texto} (${this.#contador})`;
+                });
+            }
+
+            // Método para renderizar el botón en el DOM
+            render(parent) {
+                parent.appendChild(this.boton);
+            }
+
+            // Método para obtener el valor del contador
+            getValor() {
+                return this.#contador;
+            }
+        }
+
+        // Crear instancias de los botones
+        const btn1 = new BotonContador("Clics A");
+        const btn2 = new BotonContador("Clics B");
+
+        // Renderizar los botones en la página
+        btn1.render(document.body);
+        btn2.render(document.body);
+
+        // Mostrar los valores en la consola después de 5 segundos
+        setTimeout(() => {
+            console.log("Valor del botón A:", btn1.getValor());
+            console.log("Valor del botón B:", btn2.getValor());
+        }, 5000);
+    </script>
+
+</body>
+</html>
